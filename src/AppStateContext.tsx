@@ -1,4 +1,15 @@
 import React, { createContext, useReducer, useContext } from 'react'
+
+type Action =
+  | {
+      type: 'ADD_LIST',
+      payload: string
+    }
+  | {
+      type: 'ADD_TASK',
+      payload: { text: string, listId: string }
+    }
+
 interface Task {
   id: string,
   text: string
@@ -15,7 +26,8 @@ interface AppState {
 }
 
 interface AppStateContextProps {
-  state: AppState
+  state: AppState,
+  dispatch: React.Dispatch<any>
 }
 
 const appData: AppState = {
@@ -40,9 +52,29 @@ const appData: AppState = {
 
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps)
 
+const appStateReducer = (state: AppState, action: Action): AppState => {
+  switch(action.type) {
+    case 'ADD_LIST': {
+      // Reducer logic here
+      return {
+        ...state
+      }
+    }
+    case 'ADD_TASK': {
+      return {
+        ...state
+      }
+    }
+    default: {
+      return state
+    }
+  }
+}
+
 export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
+  const [state, dispatch] = useReducer(appStateReducer, appData)
   return (
-    <AppStateContext.Provider value={{ state: appData }}>
+    <AppStateContext.Provider value={{ state, dispatch }}>
       {children}
     </AppStateContext.Provider>
   )
