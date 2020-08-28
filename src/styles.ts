@@ -4,6 +4,14 @@ interface AddItemButtonProps {
   dark?: boolean
 }
 
+interface DragPreviewContainerProps {
+  isHidden?: boolean
+}
+
+export const DragPreviewContainer = styled.div<DragPreviewContainerProps>`
+  opacity: ${props => (props.isHidden ? 0.3 : 1)};
+`
+
 export const AddItemButton = styled.button<AddItemButtonProps>`
   background-color: #ffffff3d;
   border-radius: 3px;
@@ -30,7 +38,7 @@ export const AppContainer = styled.div`
   width: 100%;
 `
 
-export const ColumnContainer = styled.div`
+export const ColumnContainer = styled(DragPreviewContainer)`
   background-color: #ebecf0;
   width: 300px;
   min-height: 40px;
@@ -38,6 +46,7 @@ export const ColumnContainer = styled.div`
   border-radius: 3px;
   padding: 8px 8px;
   flex-grow: 0;
+  flex-shrink: 0;
 `
 
 export const ColumnTitle = styled.div`
