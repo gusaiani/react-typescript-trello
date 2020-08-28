@@ -1,6 +1,8 @@
 import React, { createContext, useReducer, useContext } from 'react'
 import { nanoid } from 'nanoid'
 import { findItemIndexById } from './utils/findItemIndexById';
+import { DragItem } from './DragItem';
+import { moveItem } from './moveItem';
 
 type Action =
   | {
@@ -9,7 +11,21 @@ type Action =
     }
   | {
       type: 'ADD_TASK',
-      payload: { text: string, listId: string }
+      payload: {
+        text: string
+        listId: string
+      }
+    }
+  | {
+      type: 'MOVE_LIST',
+      payload: {
+        dragIndex: number
+        hoverIndex: number
+      }
+    }
+  | {
+      type: 'SET_DRAGGED_ITEM'
+      payload: DragItem | undefined
     }
 
 interface Task {
@@ -25,6 +41,7 @@ interface List {
 
 interface AppState {
   lists: List[]
+  draggedItem: DragItem | undefined;
 }
 
 interface AppStateContextProps {
@@ -49,7 +66,8 @@ const appData: AppState = {
       text: 'Done',
       tasks: [{ id: 'c3', text: 'Begin to use static typing' }]
     }
-  ]
+  ],
+  draggedItem: undefined
 }
 
 const AppStateContext = createContext<AppStateContextProps>({} as AppStateContextProps)
@@ -78,6 +96,14 @@ const appStateReducer = (state: AppState, action: Action): AppState => {
       return {
         ...state
       }
+    }
+    case 'MOVE_LIST': {
+      const { dragIndex, hoverIndex } = action.payload
+      state.lists = moveItem(state.lists, dragIndex, hoverIndex)
+      return { ...state }
+    }
+    case 'SET_DRAGGED_ITEM': {
+      return { ...state, draggedItem: action.payload }
     }
     default: {
       return state
