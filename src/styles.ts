@@ -6,10 +6,12 @@ interface AddItemButtonProps {
 
 interface DragPreviewContainerProps {
   isHidden?: boolean
+  isPreview?: boolean
 }
 
 export const DragPreviewContainer = styled.div<DragPreviewContainerProps>`
-  opacity: ${props => (props.isHidden ? 0.3 : 1)};
+  transform: ${props => (props.isPreview ? "rotate(5deg)": undefined)};
+  opacity: ${props => (props.isHidden ? 0 : 1)};
 `
 
 export const AddItemButton = styled.button<AddItemButtonProps>`
@@ -54,7 +56,7 @@ export const ColumnTitle = styled.div`
   font-weight: bold;
 `
 
-export const CardContainer = styled.div`
+export const CardContainer = styled(DragPreviewContainer)`
   background-color: #fff;
   cursor: pointer;
   margin-bottom: 0.5rem;
@@ -62,6 +64,15 @@ export const CardContainer = styled.div`
   max-width: 300px;
   border-radius: 3px;
   box-shadow: #091e4240 0px 1px 0px 0px;
+`
+export const CustomDragLayerContainer = styled.div`
+  height: 100%;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 `
 
 export const NewItemButton = styled.button`

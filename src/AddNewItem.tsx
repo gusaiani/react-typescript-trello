@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { AddItemButton } from './styles'
-import { NewItemForm } from './NewItemForm';
+import React, { useState } from "react"
+import { NewItemForm } from "./NewItemForm"
+import { AddItemButton } from "./styles"
 
 interface AddNewItemProps {
   onAdd(text: string): void
-  toggleButtonText: string,
+  toggleButtonText: string
   dark?: boolean
 }
 
